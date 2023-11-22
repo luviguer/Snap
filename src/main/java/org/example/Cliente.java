@@ -37,6 +37,7 @@ public class Cliente {
                     respuesta = sc.nextLine();
                     System.out.println(respuesta);
                     out.writeUTF(respuesta);
+                    resultado=in.readUTF();
 
                 }
 
