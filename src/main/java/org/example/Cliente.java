@@ -17,6 +17,7 @@ public class Cliente {
         String sino="si";
 
 
+
         try (Socket s = new Socket("localhost", 55555);
              DataInputStream in = new DataInputStream(s.getInputStream());
              DataOutputStream out = new DataOutputStream(s.getOutputStream());) {
@@ -33,11 +34,24 @@ public class Cliente {
                 out.writeUTF(respuesta);
                 resultado = in.readUTF();
                 while (resultado.equals("falso")) {
-                    System.out.println("Has fallado introduce otra respuesta");
+                    System.out.println("Has fallado introduce otra respuesta o pide pista(introcude pista)");
+
                     respuesta = sc.nextLine();
-                    System.out.println(respuesta);
-                    out.writeUTF(respuesta);
-                    resultado=in.readUTF();
+
+                    if(!respuesta.equals("pista")){
+                        System.out.println(respuesta);
+                        out.writeUTF(respuesta);
+                        resultado=in.readUTF();
+
+                    }else{
+                        System.out.println(respuesta);
+                        out.writeUTF(respuesta);
+                        respuesta=in.readUTF();
+                        System.out.println(respuesta);
+
+
+                    }
+
 
                 }
 
@@ -47,19 +61,6 @@ public class Cliente {
                 sino = scc.nextLine();
                 out.writeUTF(sino);
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         } catch (UnknownHostException e) {
