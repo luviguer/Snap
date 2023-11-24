@@ -10,7 +10,7 @@ public class Servidor {
     public static void main(String[] args) {
         Map<String, String> paises = new HashMap<>();
         boolean acertado = false;
-        String respuesta;
+        String respuesta="";
         int numPistas=1;
         String sino="";
 
@@ -31,19 +31,21 @@ public class Servidor {
 
                     for (String definicion : definicionesAleatorias) {
                         acertado = false;
+                        numPistas=1;
 
-                        out.writeUTF(definicion);
+                        out.writeUTF(definicion); //Manda la definicion al cliente
 
                         while (!acertado) {
                             System.out.println("ha entrado por segunda vez");
-                            respuesta = in.readUTF();
+                            respuesta = in.readUTF(); //recibe la respuesta
                             System.out.println(respuesta);
+
                             if (respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
                                 acertado = true;
                                 out.writeUTF("verdadero");
                                 sino=in.readUTF();
                                 if (sino.equals("si")) {
-                                   respuesta=sino;
+                                    respuesta=sino;
                                 }
                                 if(sino.equals("no")){
                                     respuesta=sino;
@@ -53,35 +55,40 @@ public class Servidor {
 
 
                             }
+
+
+
                             if(respuesta.equals("pista")) {
 
                                 String pais = obtenerPaisPorDefinicion(paises, definicion);
-                                if (numPistas == 1) {
-
-                                    respuesta = formatearPalabra(pais, 1);
-                                    out.writeUTF(respuesta);
-                                    numPistas++;
-                                }
-
-                                if (numPistas == 2) {
-                                    respuesta = formatearPalabra(pais, 2);
-                                    out.writeUTF(respuesta);
-                                    numPistas++;
-                                }
-
                                 if (numPistas == 3) {
 
                                     respuesta = formatearPalabra(pais, 3);
                                     out.writeUTF(respuesta);
                                     numPistas = 0;
 
+                                }
+                                if (numPistas == 2) {
+                                    respuesta = formatearPalabra(pais, 2);
+                                    out.writeUTF(respuesta);
+                                    numPistas++;
+                                }
+                                if (numPistas == 1) {
+
+                                    respuesta = formatearPalabra(pais, 1);
+                                    out.writeUTF(respuesta);
+                                    numPistas++;
                                 } else {
                                     out.writeUTF("ya no te quedan pistas");
                                 }
 
 
                             }
-                            if(!respuesta.equals("si") && !respuesta.equals("no") && !respuesta.equals("pista") ) {
+
+
+
+
+                            if(!respuesta.equals("si") && !respuesta.equals("no") && !respuesta.equals("pista") && !respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
                                 System.out.println("ha llegado al servidor");
                                 System.out.println(respuesta);
                                 System.out.println("se ha metido");

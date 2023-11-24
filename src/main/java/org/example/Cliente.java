@@ -15,6 +15,7 @@ public class Cliente {
         String respuesta="";
         String resultado="";
         String sino="si";
+        String pista="";
 
 
 
@@ -26,29 +27,32 @@ public class Cliente {
 
             //leemos la descripcion y la mostramos
             while(sino.equals("si")) {
-                descripcion = in.readUTF();
-                System.out.println(descripcion);
+                descripcion = in.readUTF();//recibe la definicion y la guarda en description
+
+                System.out.println(descripcion); //Muestra por pantalla la definicion
                 Scanner sc = new Scanner(System.in);
 
-                respuesta = sc.nextLine();
-                out.writeUTF(respuesta);
-                resultado = in.readUTF();
+                respuesta = sc.nextLine();//Escribe la respuesta
+                out.writeUTF(respuesta);//Manda la respuesta al servidor
+                resultado = in.readUTF();// Recibe falso en caso de que la palabra sea incorrecta y verdadero en el caso contrario
                 while (resultado.equals("falso")) {
+
                     System.out.println("Has fallado introduce otra respuesta o pide pista(introcude pista)");
 
                     respuesta = sc.nextLine();
 
                     if(!respuesta.equals("pista")){
+
                         System.out.println(respuesta);
                         out.writeUTF(respuesta);
                         resultado=in.readUTF();
 
                     }else{
+
                         System.out.println(respuesta);
                         out.writeUTF(respuesta);
-                        respuesta=in.readUTF();
-                        System.out.println(respuesta);
-
+                        pista=in.readUTF();
+                        System.out.println(pista);
 
                     }
 
