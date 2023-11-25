@@ -45,7 +45,10 @@ public class Cliente {
 
                         System.out.println(respuesta);
                         out.writeUTF(respuesta);
-                        resultado=in.readUTF();
+                        resultado=in.readUTF();//AQUI NO LLEGA EL VERDADERO
+                        System.out.println("ha llegado el verdadero");
+                        System.out.println(resultado);
+
 
                     }else{
 
@@ -64,6 +67,7 @@ public class Cliente {
                 Scanner scc = new Scanner(System.in);
                 sino = scc.nextLine();
                 out.writeUTF(sino);
+
             }
 
 
@@ -73,6 +77,7 @@ public class Cliente {
             throw new RuntimeException(e);
         }
     }
+
 }
 
 

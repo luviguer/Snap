@@ -10,9 +10,9 @@ public class Servidor {
     public static void main(String[] args) {
         Map<String, String> paises = new HashMap<>();
         boolean acertado = false;
-        String respuesta="";
-        int numPistas=1;
-        String sino="";
+        String respuesta = "";
+        int numPistas = 1;
+        String sino = "";
 
 
         paises = cargarDefinicionesDesdeArchivo("paises.txt");
@@ -31,7 +31,7 @@ public class Servidor {
 
                     for (String definicion : definicionesAleatorias) {
                         acertado = false;
-                        numPistas=1;
+                        numPistas = 1;
 
                         out.writeUTF(definicion); //Manda la definicion al cliente
 
@@ -41,14 +41,20 @@ public class Servidor {
                             System.out.println(respuesta);
 
                             if (respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
+                                System.out.println("ha entrado en la opcion verdadera");
                                 acertado = true;
-                                out.writeUTF("verdadero");
-                                sino=in.readUTF();
+                                out.writeUTF("verdadero");//NO se hace
+                                out.flush();
+                                System.out.println("ha  mandado verdadero");
+
+                                sino = in.readUTF();
+                                System.out.println("sino");
                                 if (sino.equals("si")) {
-                                    respuesta=sino;
+                                    System.out.println("ha entrado dentro de si");
+                                    respuesta = sino;
                                 }
-                                if(sino.equals("no")){
-                                    respuesta=sino;
+                                if (sino.equals("no")) {
+                                    respuesta = sino;
                                     break;
 
                                 }
@@ -57,38 +63,33 @@ public class Servidor {
                             }
 
 
-
-                            if(respuesta.equals("pista")) {
+                            if (respuesta.equals("pista")) {
 
                                 String pais = obtenerPaisPorDefinicion(paises, definicion);
-                                if (numPistas == 3) {
 
-                                    respuesta = formatearPalabra(pais, 3);
-                                    out.writeUTF(respuesta);
-                                    numPistas = 0;
-
-                                }
-                                if (numPistas == 2) {
-                                    respuesta = formatearPalabra(pais, 2);
-                                    out.writeUTF(respuesta);
+                                String pista=generaPista(pais,numPistas);
+                                System.out.println(numPistas);
+                                if(numPistas==1 | numPistas==2){
+                                    System.out.println("num pistas demtro del primer if"+numPistas);
                                     numPistas++;
-                                }
-                                if (numPistas == 1) {
+                                    System.out.println("num pistas demtro del primer if"+numPistas);
+                                }else{
+                                    if(numPistas==3){
+                                        numPistas=0;
+                                        System.out.println("ha entrado al numero 3");
 
-                                    respuesta = formatearPalabra(pais, 1);
-                                    out.writeUTF(respuesta);
-                                    numPistas++;
-                                } else {
-                                    out.writeUTF("ya no te quedan pistas");
+
+                                    }
                                 }
+
+                                out.writeUTF(pista);
+
 
 
                             }
 
 
-
-
-                            if(!respuesta.equals("si") && !respuesta.equals("no") && !respuesta.equals("pista") && !respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
+                            if (!respuesta.equals("si") && !respuesta.equals("no") && !respuesta.equals("pista") && !respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
                                 System.out.println("ha llegado al servidor");
                                 System.out.println(respuesta);
                                 System.out.println("se ha metido");
@@ -102,6 +103,18 @@ public class Servidor {
             throw new RuntimeException(e);
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     private static Map<String, String> cargarDefinicionesDesdeArchivo(String nombreArchivo) {
         List<String> lineasMezcladas = obtenerLineasMezcladas(nombreArchivo);
@@ -119,7 +132,31 @@ public class Servidor {
         return paises;
     }
 
-    private static List<String> obtenerLineasMezcladas(String nombreArchivo) {
+
+
+
+    //FUNCIONES NECESARIAS
+
+
+    private static String generaPista(String p,int numPistas) {
+
+        String pista="";
+
+        if (numPistas <= 3 && numPistas>0) {
+
+            pista = formatearPalabra(p, numPistas);
+        }
+        else {
+            pista="NO QUEDAN PISTAS";
+        }
+            return pista;
+
+    }
+
+
+
+
+        private static List<String> obtenerLineasMezcladas(String nombreArchivo) {
         List<String> lineas = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(nombreArchivo))) {
@@ -180,4 +217,11 @@ public class Servidor {
 
 
 
-}
+
+
+
+
+
+
+    }
+
