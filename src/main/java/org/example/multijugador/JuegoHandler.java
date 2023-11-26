@@ -27,94 +27,108 @@ public class JuegoHandler implements Runnable {
 
         paises = cargarDefinicionesDesdeArchivo("paises.txt");
 
-                try (
-                     DataInputStream in = new DataInputStream(c.getInputStream());
-                     DataOutputStream out = new DataOutputStream(c.getOutputStream())) {
+        try (
+                DataInputStream in = new DataInputStream(c.getInputStream());
+                DataOutputStream out = new DataOutputStream(c.getOutputStream())) {
 
-                    System.out.println("VAMOS A COMENZAR EL JUEGO");
+            System.out.println("VAMOS A COMENZAR EL JUEGO");
 
-                    // Obtener solo las definiciones y mezclarlas aleatoriamente
-                    List<String> definicionesAleatorias = obtenerDefinicionesAleatorias(paises);
-
-                    for (String definicion : definicionesAleatorias) {
-                        acertado = false;
-                        numPistas = 1;
-
-                        out.writeUTF(definicion); //Manda la definicion al cliente
-
-                        while (!acertado) {
-                            System.out.println("ha entrado por segunda vez");
-                            respuesta = in.readUTF(); //recibe la respuesta
-                            System.out.println(respuesta);
-
-                            if (respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
-                                System.out.println("ha entrado en la opcion verdadera");
-                                acertado = true;
-                                out.writeUTF("verdadero");//NO se hace
-                                out.flush();
-                                System.out.println("ha  mandado verdadero");
-
-                                sino = in.readUTF();
-                                System.out.println("sino");
-                                if (sino.equals("si")) {
-                                    System.out.println("ha entrado dentro de si");
-                                    respuesta = sino;
-                                }
-                                if (sino.equals("no")) {
-                                    respuesta = sino;
-                                    break;
-
-                                }
-
-
-                            }
-
-
-                            if (respuesta.equals("pista")) {
-
-                                String pais = obtenerPaisPorDefinicion(paises, definicion);
-
-                                String pista=generaPista(pais,numPistas);
-                                System.out.println(numPistas);
-                                if(numPistas==1 | numPistas==2){
-                                    System.out.println("num pistas demtro del primer if"+numPistas);
-                                    numPistas++;
-                                    System.out.println("num pistas demtro del primer if"+numPistas);
-                                }else{
-                                    if(numPistas==3){
-                                        numPistas=0;
-                                        System.out.println("ha entrado al numero 3");
-
-
-                                    }
-                                }
-
-                                out.writeUTF(pista);
+            // Obtener solo las definiciones y mezclarlas aleatoriamente
+            List<String> definicionesAleatorias = obtenerDefinicionesAleatorias(paises);
+            boolean salir=false;
 
 
 
-                            }
+            for (String definicion : definicionesAleatorias) {
+                acertado = false;
+                numPistas = 1;
 
+                out.writeUTF(definicion); //Manda la definicion al cliente
 
-                            if (!respuesta.equals("si") && !respuesta.equals("no") && !respuesta.equals("pista") && !respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
-                                System.out.println("ha llegado al servidor");
-                                System.out.println(respuesta);
-                                System.out.println("se ha metido");
-                                out.writeUTF("falso");
-                            }
+                while (!acertado) {
+                    System.out.println("ha entrado por segunda vez");
+                    respuesta = in.readUTF(); //recibe la respuesta
+                    System.out.println(respuesta);
+
+                    if (respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
+                        System.out.println("ha entrado en la opcion verdadera");
+                        acertado = true;
+                        out.writeUTF("verdadero");//NO se hace
+                        out.flush();
+                        System.out.println("ha  mandado verdadero");
+
+                        sino = in.readUTF();
+                        System.out.println("sino");
+                        if (sino.equals("si")) {
+                            System.out.println("ha entrado dentro de si");
+                            respuesta = sino;
                         }
+                        if (sino.equals("no")) {
+                            System.out.println("ha entrado dentro del no");
+                            respuesta = sino;
+                            salir=true;
+                            break;
+
+                        }
+
+
                     }
 
 
-                    //CALCULAMOS EL RESULTADO
-
-                    out.writeUTF("Dame el resultado");
-                    resultado=in.readDouble();
 
 
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    if (respuesta.equals("pista")) {
+
+                        String pais = obtenerPaisPorDefinicion(paises, definicion);
+
+                        String pista=generaPista(pais,numPistas);
+                        System.out.println(numPistas);
+                        if(numPistas==1 | numPistas==2){
+                            System.out.println("num pistas demtro del primer if"+numPistas);
+                            numPistas++;
+                            System.out.println("num pistas demtro del primer if"+numPistas);
+                        }else{
+                            if(numPistas==3){
+                                numPistas=0;
+                                System.out.println("ha entrado al numero 3");
+
+
+                            }
+                        }
+
+                        out.writeUTF(pista);
+
+
+
+                    }
+
+
+                    if (!respuesta.equals("si") && !respuesta.equals("no") && !respuesta.equals("pista") && !respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
+                        System.out.println("ha llegado al servidor");
+                        System.out.println(respuesta);
+                        System.out.println("se ha metido");
+                        out.writeUTF("falso");
+                    }
                 }
+
+                if(salir) {
+                    break;
+                }
+            }
+
+
+
+            //CALCULAMOS EL RESULTADO
+
+            out.writeUTF("Dame el resultado");
+            resultado=in.readDouble();
+
+            c.close();
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
     }
@@ -221,6 +235,7 @@ public class JuegoHandler implements Runnable {
 
         return resultado.toString();
     }
+
 
 
 
