@@ -1,28 +1,35 @@
-package org.example;
+package org.example.multijugador;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 
-public class Servidor {
+public class JuegoHandler implements Runnable {
 
-    public static void main(String[] args) {
-        Map<String, String> paises = new HashMap<>();
-        boolean acertado = false;
-        String respuesta = "";
-        int numPistas = 1;
-        String sino = "";
+    private Socket c;
 
+    Map<String, String> paises = new HashMap<>();
+    boolean acertado = false;
+    String respuesta = "";
+    int numPistas = 1;
+    String sino = "";
+    double resultado=0;
+
+    public JuegoHandler(Socket c) {
+
+        this.c=c;
+    }
+
+
+    @Override
+    public void run() {
 
         paises = cargarDefinicionesDesdeArchivo("paises.txt");
 
-        try (ServerSocket serverSocket = new ServerSocket(55555)) {
-            while (true) {
-
-                try (Socket sc = serverSocket.accept();
-                     DataInputStream in = new DataInputStream(sc.getInputStream());
-                     DataOutputStream out = new DataOutputStream(sc.getOutputStream())) {
+                try (
+                     DataInputStream in = new DataInputStream(c.getInputStream());
+                     DataOutputStream out = new DataOutputStream(c.getOutputStream())) {
 
                     System.out.println("VAMOS A COMENZAR EL JUEGO");
 
@@ -97,22 +104,25 @@ public class Servidor {
                             }
                         }
                     }
+
+
+                    //CALCULAMOS EL RESULTADO
+
+                    out.writeUTF("Dame el resultado");
+                    resultado=in.readDouble();
+
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+
     }
 
 
-
-
-
-
-
-
-
-//FUNCIONES NECESARIAS
+    public double getResultado(){
+        return resultado;
+    }
 
 
 
@@ -149,14 +159,14 @@ public class Servidor {
         else {
             pista="NO QUEDAN PISTAS";
         }
-            return pista;
+        return pista;
 
     }
 
 
 
 
-        private static List<String> obtenerLineasMezcladas(String nombreArchivo) {
+    private static List<String> obtenerLineasMezcladas(String nombreArchivo) {
         List<String> lineas = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(nombreArchivo))) {
@@ -223,5 +233,6 @@ public class Servidor {
 
 
 
-    }
 
+
+}
