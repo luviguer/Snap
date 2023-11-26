@@ -50,6 +50,7 @@ public class JuegoHandler implements Runnable {
                     respuesta = in.readUTF(); //recibe la respuesta
                     System.out.println(respuesta);
 
+
                     if (respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
                         System.out.println("ha entrado en la opcion verdadera");
                         acertado = true;
