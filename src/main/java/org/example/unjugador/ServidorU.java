@@ -87,9 +87,13 @@ public class ServidorU {
 
 
                             }
+                            if(respuesta.equals("exit")){
+                               out.writeUTF("Ouuu te has rendido");
+                                break;
 
+                            }
 
-                            if (!respuesta.equals("si") && !respuesta.equals("no") && !respuesta.equals("pista") && !respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
+                            if (!respuesta.equals("si") && !respuesta.equals("no") && !respuesta.equals("pista") && !respuesta.equals(obtenerPaisPorDefinicion(paises, definicion)) && !respuesta.equals("exit") ) {
                                 System.out.println("ha llegado al servidor");
                                 System.out.println(respuesta);
                                 System.out.println("se ha metido");
@@ -104,17 +108,7 @@ public class ServidorU {
         }
     }
 
-
-
-
-
-
-
-
-
 //FUNCIONES NECESARIAS
-
-
 
     private static Map<String, String> cargarDefinicionesDesdeArchivo(String nombreArchivo) {
         List<String> lineasMezcladas = obtenerLineasMezcladas(nombreArchivo);
@@ -128,15 +122,8 @@ public class ServidorU {
                 paises.put(nombrePais, definicion);
             }
         }
-
         return paises;
     }
-
-
-
-
-
-
 
     private static String generaPista(String p,int numPistas) {
 
@@ -152,8 +139,6 @@ public class ServidorU {
             return pista;
 
     }
-
-
 
 
         private static List<String> obtenerLineasMezcladas(String nombreArchivo) {
@@ -211,17 +196,6 @@ public class ServidorU {
 
         return resultado.toString();
     }
-
-
-
-
-
-
-
-
-
-
-
 
     }
 

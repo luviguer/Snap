@@ -1,4 +1,4 @@
-/*package InterfazGrafica;
+package InterfazGrafica;
 
 import org.example.multijugador.ClienteM;
 import org.example.multijugador.ServidorM;
@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.EOFException;
 
 public class Cliente {
 
@@ -74,7 +75,13 @@ public class Cliente {
 
     private void iniciarServidorYClientesMultijugador() {
         // Lógica para iniciar el servidor y clientes multijugador
-        new Thread(() -> ServidorM.main(new String[]{})).start();
+        new Thread(() -> {
+            try {
+                ServidorM.main(new String[]{});
+            } catch (EOFException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
         new Thread(() -> ClienteM.main(new String[]{})).start();
         new Thread(() -> ClienteM.main(new String[]{})).start();
     }
@@ -96,4 +103,3 @@ public class Cliente {
         });
     }
 }
-*/

@@ -40,6 +40,7 @@ public class ClienteU {
 
                     respuesta = sc.nextLine();
 
+
                     if(!respuesta.equals("pista")){
 
                         System.out.println(respuesta);
@@ -49,7 +50,7 @@ public class ClienteU {
                         System.out.println(resultado);
 
 
-                    }else{
+                    }else {
 
                         System.out.println(respuesta);
                         out.writeUTF(respuesta);
@@ -61,11 +62,18 @@ public class ClienteU {
 
                 }
 
-                System.out.println("Felicidades respuesta correcta");
-                System.out.println("¿Quieres continuar con el juego?, si/no");
-                Scanner scc = new Scanner(System.in);
-                sino = scc.nextLine();
-                out.writeUTF(sino);
+                if(!respuesta.equals("exit")) {
+
+                    System.out.println("Felicidades respuesta correcta");
+
+                }
+
+                    System.out.println("¿Quieres continuar con el juego?, si/no");
+                    Scanner scc = new Scanner(System.in);
+                    sino = scc.nextLine();
+                    out.writeUTF(sino);
+
+
 
             }
 
