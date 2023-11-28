@@ -45,16 +45,18 @@ public class ClienteM {
             }
 
 
+
+
+
             System.out.println(resultado);
 
-            resultado=in.readUTF();
 
-            System.out.println(resultado);
-
-
-            String ganador=in.readUTF();
-
-            System.out.println(ganador);
+            try {
+                String ganador = in.readUTF();
+                System.out.println(ganador);
+            } catch (EOFException e) {
+                System.out.println("El servidor ha cerrado la conexión.");
+            }
 
 
 
