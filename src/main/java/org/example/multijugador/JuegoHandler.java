@@ -3,22 +3,35 @@ package org.example.multijugador;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Exchanger;
 
 public class JuegoHandler implements Runnable {
 
     private Socket c;
 
+    private Exchanger<Integer> exchanger;
+
     Map<String, String> paises = new HashMap<>();
     boolean acertado = false;
     String respuesta = "";
-    int numPistas = 1;
     String sino = "";
-    double resultado=0;
+    int numAciertos=0;
+    int contador=0;
+    int mandarAciertos;
+    int numAciertosMandados=0;
 
-    public JuegoHandler(Socket c) {
+
+    public JuegoHandler(Socket c,Exchanger<Integer> exchanger) {
 
         this.c=c;
+        this.exchanger=exchanger;
+
+
     }
 
 
@@ -29,114 +42,110 @@ public class JuegoHandler implements Runnable {
 
         try (
                 DataInputStream in = new DataInputStream(c.getInputStream());
-                DataOutputStream out = new DataOutputStream(c.getOutputStream())) {
+                DataOutputStream out = new DataOutputStream(c.getOutputStream());) {
 
             System.out.println("VAMOS A COMENZAR EL JUEGO");
 
             // Obtener solo las definiciones y mezclarlas aleatoriamente
             List<String> definicionesAleatorias = obtenerDefinicionesAleatorias(paises);
+
+
             boolean salir=false;
 
-
-
             for (String definicion : definicionesAleatorias) {
-                acertado = false;
-                numPistas = 1;
+
+                contador++;
 
                 out.writeUTF(definicion); //Manda la definicion al cliente
 
-                while (!acertado) {
-                    System.out.println("ha entrado por segunda vez");
-                    respuesta = in.readUTF(); //recibe la respuesta
-                    System.out.println(respuesta);
 
+                System.out.println("ha entrado por segunda vez");
+                respuesta = in.readUTF(); //recibe la respuesta
+                System.out.println(respuesta);
 
-                    if (respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
-                        System.out.println("ha entrado en la opcion verdadera");
-                        acertado = true;
-                        out.writeUTF("verdadero");//NO se hace
-                        out.flush();
-                        System.out.println("ha  mandado verdadero");
-
-                        sino = in.readUTF();
-                        System.out.println("sino");
-                        if (sino.equals("si")) {
-                            System.out.println("ha entrado dentro de si");
-                            respuesta = sino;
-                        }
-                        if (sino.equals("no")) {
-                            System.out.println("ha entrado dentro del no");
-                            respuesta = sino;
-                            salir=true;
-                            break;
-
-                        }
-
-
-                    }
+                if (respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
+                    System.out.println("ha entrado en la opcion verdadera");
+                    numAciertos++;
 
 
 
-
-                    if (respuesta.equals("pista")) {
-
-                        String pais = obtenerPaisPorDefinicion(paises, definicion);
-
-                        String pista=generaPista(pais,numPistas);
-                        System.out.println(numPistas);
-                        if(numPistas==1 | numPistas==2){
-                            System.out.println("num pistas demtro del primer if"+numPistas);
-                            numPistas++;
-                            System.out.println("num pistas demtro del primer if"+numPistas);
-                        }else{
-                            if(numPistas==3){
-                                numPistas=0;
-                                System.out.println("ha entrado al numero 3");
-
-
-                            }
-                        }
-
-                        out.writeUTF(pista);
-
-
-
-                    }
-
-
-                    if (!respuesta.equals("si") && !respuesta.equals("no") && !respuesta.equals("pista") && !respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
-                        System.out.println("ha llegado al servidor");
-                        System.out.println(respuesta);
-                        System.out.println("se ha metido");
-                        out.writeUTF("falso");
-                    }
                 }
+
+
+
+                if(contador==definicionesAleatorias.size()) {
+
+
+                    out.writeUTF("La lista de definicione se ha terminado");
+
+
+                    salir=true;
+
+
+
+
+                }else {
+                    out.writeUTF("continuamos");
+                }
+
 
                 if(salir) {
                     break;
+
                 }
+
             }
 
 
+            System.out.println("llega aqui");
 
-            //CALCULAMOS EL RESULTADO
 
-            out.writeUTF("Dame el resultado");
-            resultado=in.readDouble();
+            numAciertosMandados=numAciertos;
+
+            numAciertos=exchanger.exchange(numAciertos);
+
+            if(numAciertos>numAciertosMandados) {
+
+                out.writeUTF("ganador");
+            }
+
+            if(numAciertos<numAciertosMandados) {
+
+                out.writeUTF("perdedor");
+            }
+
+            if(numAciertos==numAciertosMandados) {
+                System.out.println("empate");
+                out.writeUTF("empate");
+            }
+
+
 
             c.close();
 
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
 
 
     }
 
 
-    public double getResultado(){
-        return resultado;
+
+
+
+
+
+
+
+
+
+    public double getnumAciertos(){
+        return numAciertos;
     }
 
 
@@ -236,6 +245,9 @@ public class JuegoHandler implements Runnable {
 
         return resultado.toString();
     }
+
+
+
 
 
 

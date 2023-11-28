@@ -1,11 +1,11 @@
-package org.example;
+package org.example.unjugador;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 
-public class Servidor {
+public class ServidorU {
 
     public static void main(String[] args) {
         Map<String, String> paises = new HashMap<>();

@@ -1,14 +1,13 @@
-package org.example;
+package org.example.unjugador;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Map;
 import java.util.Scanner;
 
-public class Cliente {
+public class ClienteU {
     public static void main(String[] args) {
 
         String descripcion="";
