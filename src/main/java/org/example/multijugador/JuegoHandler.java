@@ -17,12 +17,11 @@ public class JuegoHandler implements Runnable {
     private Exchanger<Integer> exchanger;
 
     Map<String, String> paises = new HashMap<>();
-    boolean acertado = false;
+
     String respuesta = "";
-    String sino = "";
+
     int numAciertos=0;
     int contador=0;
-    int mandarAciertos;
     int numAciertosMandados=0;
 
 
@@ -47,7 +46,7 @@ public class JuegoHandler implements Runnable {
             System.out.println("VAMOS A COMENZAR EL JUEGO");
 
             // Obtener solo las definiciones y mezclarlas aleatoriamente
-            List<String> definicionesAleatorias = obtenerDefinicionesAleatorias(paises);
+            List<String> definicionesAleatorias = obtenerDefinicionesAleatorias(paises,10);
 
 
             boolean salir=false;
@@ -211,9 +210,15 @@ public class JuegoHandler implements Runnable {
         return lineas;
     }
 
-    private static List<String> obtenerDefinicionesAleatorias(Map<String, String> paises) {
+    private static List<String> obtenerDefinicionesAleatorias(Map<String, String> paises,int limite) {
         List<String> definiciones = new ArrayList<>(paises.values());
         Collections.shuffle(definiciones);
+
+
+        if (definiciones.size() > limite) {
+            definiciones = definiciones.subList(0, limite);
+        }
+
         return definiciones;
     }
 
