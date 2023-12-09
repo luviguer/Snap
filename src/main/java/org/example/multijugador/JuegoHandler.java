@@ -15,6 +15,7 @@ public class JuegoHandler implements Runnable {
     private Socket c;
 
     private Exchanger<Integer> exchanger;
+    private List<String> definicionesAleatorias;
 
     Map<String, String> paises = new HashMap<>();
 
@@ -25,10 +26,13 @@ public class JuegoHandler implements Runnable {
     int numAciertosMandados=0;
 
 
-    public JuegoHandler(Socket c,Exchanger<Integer> exchanger) {
+
+
+    public JuegoHandler(Socket c,Exchanger<Integer> exchanger, List<String> definicionesAleatorias) {
 
         this.c=c;
         this.exchanger=exchanger;
+        this.definicionesAleatorias=definicionesAleatorias;
 
 
     }
@@ -37,7 +41,6 @@ public class JuegoHandler implements Runnable {
     @Override
     public void run() {
 
-        paises = cargarDefinicionesDesdeArchivo("paises.txt");
 
         try (
                 DataInputStream in = new DataInputStream(c.getInputStream());
@@ -46,8 +49,8 @@ public class JuegoHandler implements Runnable {
             System.out.println("VAMOS A COMENZAR EL JUEGO");
 
             // Obtener solo las definiciones y mezclarlas aleatoriamente
-            List<String> definicionesAleatorias = obtenerDefinicionesAleatorias(paises,10);
 
+            paises = cargarDefinicionesDesdeArchivo("paises.txt");
 
             boolean salir=false;
 
@@ -58,17 +61,17 @@ public class JuegoHandler implements Runnable {
                 out.writeUTF(definicion); //Manda la definicion al cliente
 
 
-                System.out.println("ha entrado por segunda vez");
+               // System.out.println("ha entrado por segunda vez");
                 respuesta = in.readUTF(); //recibe la respuesta
                 System.out.println(respuesta);
 
                 if (respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
-                    System.out.println("ha entrado en la opcion verdadera");
                     numAciertos++;
 
 
 
                 }
+
 
 
 
@@ -103,12 +106,12 @@ public class JuegoHandler implements Runnable {
 
             numAciertos=exchanger.exchange(numAciertos);
 
-            if(numAciertos>numAciertosMandados) {
+            if(numAciertos<numAciertosMandados) {
 
                 out.writeUTF("ganador");
             }
 
-            if(numAciertos<numAciertosMandados) {
+            if(numAciertos>numAciertosMandados) {
 
                 out.writeUTF("perdedor");
             }
@@ -148,7 +151,6 @@ public class JuegoHandler implements Runnable {
     }
 
 
-
     private static Map<String, String> cargarDefinicionesDesdeArchivo(String nombreArchivo) {
         List<String> lineasMezcladas = obtenerLineasMezcladas(nombreArchivo);
         Map<String, String> paises = new HashMap<>();
@@ -164,6 +166,28 @@ public class JuegoHandler implements Runnable {
 
         return paises;
     }
+
+    private static List<String> obtenerLineasMezcladas(String nombreArchivo) {
+        List<String> lineas = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(nombreArchivo))) {
+            String linea;
+
+            while ((linea = br.readLine()) != null) {
+                lineas.add(linea);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Mezclar aleatoriamente las líneas solo si no están mezcladas ya
+        if (!lineas.get(0).equals(lineas.get(1))) {
+            Collections.shuffle(lineas);
+        }
+
+        return lineas;
+    }
+
 
 
 
@@ -189,38 +213,8 @@ public class JuegoHandler implements Runnable {
 
 
 
-    private static List<String> obtenerLineasMezcladas(String nombreArchivo) {
-        List<String> lineas = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader(nombreArchivo))) {
-            String linea;
-
-            while ((linea = br.readLine()) != null) {
-                lineas.add(linea);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Mezclar aleatoriamente las líneas solo si no están mezcladas ya
-        if (!lineas.get(0).equals(lineas.get(1))) {
-            Collections.shuffle(lineas);
-        }
-
-        return lineas;
-    }
-
-    private static List<String> obtenerDefinicionesAleatorias(Map<String, String> paises,int limite) {
-        List<String> definiciones = new ArrayList<>(paises.values());
-        Collections.shuffle(definiciones);
 
 
-        if (definiciones.size() > limite) {
-            definiciones = definiciones.subList(0, limite);
-        }
-
-        return definiciones;
-    }
 
     private static String obtenerPaisPorDefinicion(Map<String, String> paises, String definicion) {
         for (Map.Entry<String, String> entry : paises.entrySet()) {

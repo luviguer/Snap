@@ -65,10 +65,17 @@ public class ClienteU {
                         System.out.println("Te has rendido");
                         resultado="verdadero";
 
+
+
+
+
                     }
 
 
                 }
+
+
+
 
 
 

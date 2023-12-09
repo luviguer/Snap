@@ -106,10 +106,23 @@ public class ServidorU {
                             out.writeUTF("Ouuu te has rendido");
                             break;
 
+
+
+
                         }
                     }
                 }
             }
+
+
+
+
+
+
+
+
+
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
