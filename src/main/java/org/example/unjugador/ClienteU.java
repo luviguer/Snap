@@ -1,5 +1,7 @@
 package org.example.unjugador;
 
+import org.example.Main;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -25,7 +27,7 @@ public class ClienteU {
             System.out.println("Jugador conectado");
 
             //leemos la descripcion y la mostramos
-            while(sino.equals("si")) {
+            while(true) {
                 descripcion = in.readUTF();//recibe la definicion y la guarda en description
 
                 System.out.println(descripcion); //Muestra por pantalla la definicion
@@ -41,16 +43,16 @@ public class ClienteU {
                     respuesta = sc.nextLine();
 
 
-                    if(!respuesta.equals("pista")){
+                    if(!respuesta.equals("pista") && !respuesta.equals("exit")){
 
                         System.out.println(respuesta);
                         out.writeUTF(respuesta);
                         resultado=in.readUTF();//AQUI NO LLEGA EL VERDADERO
-                        System.out.println("ha llegado el verdadero");
+                     //   System.out.println("ha llegado el verdadero");
                         System.out.println(resultado);
 
 
-                    }else {
+                    }if(respuesta.equals("pista")) {
 
                         System.out.println(respuesta);
                         out.writeUTF(respuesta);
@@ -58,20 +60,22 @@ public class ClienteU {
                         System.out.println(pista);
 
                     }
+                    if(respuesta.equals("exit")) {
+
+                        System.out.println("Te has rendido");
+                        resultado="verdadero";
+
+                    }
 
 
                 }
 
-                if(!respuesta.equals("exit")) {
 
-                    System.out.println("Felicidades respuesta correcta");
 
-                }
-
-                    System.out.println("¿Quieres continuar con el juego?, si/no");
-                    Scanner scc = new Scanner(System.in);
-                    sino = scc.nextLine();
-                    out.writeUTF(sino);
+                   // System.out.println("¿Quieres continuar con el juego?, si/no");
+                // Scanner scc = new Scanner(System.in);
+                // sino = scc.nextLine();
+                // out.writeUTF(sino);
 
 
 
@@ -83,7 +87,12 @@ public class ClienteU {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
+
+
+
+
 
 }
 

@@ -24,7 +24,8 @@ public class ServidorU {
                      DataInputStream in = new DataInputStream(sc.getInputStream());
                      DataOutputStream out = new DataOutputStream(sc.getOutputStream())) {
 
-                    System.out.println("VAMOS A COMENZAR EL JUEGO");
+                    System.out.println("VAMOS A COMENZAR EL JUEGO. ");
+                    System.out.println("Escribe el nombre del pais descrito y exit cuando quieras abandonar la partida");
 
                     // Obtener solo las definiciones y mezclarlas aleatoriamente
                     List<String> definicionesAleatorias = obtenerDefinicionesAleatorias(paises);
@@ -47,17 +48,18 @@ public class ServidorU {
                                 out.flush();
                                 System.out.println("ha  mandado verdadero");
 
-                                sino = in.readUTF();
-                                System.out.println("sino");
-                                if (sino.equals("si")) {
-                                    System.out.println("ha entrado dentro de si");
-                                    respuesta = sino;
-                                }
-                                if (sino.equals("no")) {
-                                    respuesta = sino;
-                                    break;
+                               // sino = in.readUTF();
 
-                                }
+                                //System.out.println("sino");
+                               // if (sino.equals("si")) {
+                                 //   System.out.println("ha entrado dentro de si");
+                                   // respuesta = sino;
+                                //}
+                                //if (sino.equals("no")) {
+                                  //  respuesta = sino;
+                                   // break;
+
+                                //}
 
 
                             }
@@ -89,7 +91,7 @@ public class ServidorU {
                             }
                             if(respuesta.equals("exit")){
                                out.writeUTF("Ouuu te has rendido");
-                                break;
+                               break;
 
                             }
 
@@ -99,6 +101,11 @@ public class ServidorU {
                                 System.out.println("se ha metido");
                                 out.writeUTF("falso");
                             }
+                        }
+                        if(respuesta.equals("exit")){
+                            out.writeUTF("Ouuu te has rendido");
+                            break;
+
                         }
                     }
                 }

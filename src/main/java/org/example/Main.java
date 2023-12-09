@@ -1,8 +1,11 @@
 package org.example;
 
+import org.example.multijugador.ClienteM;
+import org.example.multijugador.ServidorM;
 import org.example.unjugador.ClienteU;
 import org.example.unjugador.ServidorU;
 
+import java.io.EOFException;
 import java.util.Scanner;
 
 public class Main {
@@ -52,5 +55,21 @@ public class Main {
         // Código para iniciar el juego multijugador
         System.out.println("Iniciando juego multijugador...");
         // Puedes llamar a la clase Cliente correspondiente para el juego multijugador
+        new Thread(() -> {
+            try {
+                ServidorM.main(null);
+            } catch (EOFException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+        // Espera un momento para asegurar que el servidor esté funcionando antes de iniciar el cliente
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Inicia el cliente
+        ClienteM.main(null);
     }
     }
