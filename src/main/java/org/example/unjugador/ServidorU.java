@@ -38,6 +38,14 @@ public class ServidorU {
                             respuesta = in.readUTF(); //recibe la respuesta
                             System.out.println(respuesta);
 
+                            if(respuesta.equals("paso")){
+                                out.writeUTF("verdadero");
+                                break;
+                            }
+
+
+
+
                             if (respuesta.toLowerCase().equals(obtenerPaisPorDefinicion(paises, definicion))) {
                                 acertado = true;
                                 out.writeUTF("verdadero");

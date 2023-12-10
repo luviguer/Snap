@@ -18,6 +18,7 @@ public class ClienteU {
         String sino="si";
         String pista="";
         int priimeraPista=0;
+        int numAciertos=0;
 
 
 
@@ -27,9 +28,14 @@ public class ClienteU {
 
             System.out.println("Jugador conectado");
             System.out.println("VAMOS A COMENZAR EL JUEGO");
-            System.out.println("Escribe el nombre del pais descrito y exit cuando quieras abandonar la partida");
+
+
+            System.out.println("Si quieres pasar introduce paso");
+            System.out.println("Si quieres abandonar introduce exit");
+            System.out.println("Si quieres conseguir una pista introduce pista");
 
             while(true) {
+
 
                 priimeraPista=0;
                 descripcion = in.readUTF();//recibe la definicion y la guarda en description
@@ -48,12 +54,19 @@ public class ClienteU {
 
                if(respuesta.equals("exit")){
                    System.out.println("ouu te has rendido ");
+                   System.out.println("Has conseguido "+numAciertos+" aciertos");
                    break;
                }
-                out.writeUTF(respuesta);//Manda la respuesta al servidor
+
+
+               out.writeUTF(respuesta);//Manda la respuesta al servidor
                 resultado = in.readUTF();// Recibe falso en caso de que la palabra sea incorrecta y verdadero en el caso contrario
 
+
+
                 while (resultado.equals("falso")) {
+
+
 
                     if(!respuesta.equals("pista")){
                         System.out.println("Has fallado introduce otra respuesta o pide pista(introcude pista)");
@@ -98,22 +111,22 @@ public class ClienteU {
                 }
 
 
+                if(!respuesta.equals("paso")){
+
+                    if(!respuesta.equals("exit")){
+
+                        System.out.println("RESPUESTA CORRECTA");
+                        numAciertos++;
 
 
 
-                if(!respuesta.equals("exit")){
+                    }else{
+                        System.out.println("Has conseguido "+numAciertos+" aciertos");
+                        break;
+                    }
 
-                    System.out.println("RESPUESTA CORRECTA");
 
-
-                }else{
-                    break;
                 }
-
-
-
-
-
 
 
 
