@@ -1,50 +1,49 @@
-Albania,Tirana
-Alemania,Berlín
-Andorra,Andorra La Vieja
-Armenia,Ereván
-Austria,Viena
-Azerbaiyán,Bakú
-Bélgica,Bruselas
-Bielorrusia,Minsk
-Bosnia y Herzegovina,Sarajevo
-Bulgaria,Sofía
-Chipre,Nicosia
-Ciudad del Vaticano,Ciudad del Vaticano
-Croacia,Zagreb
-Dinamarca,Copenhague
-Eslovaquia,Bratislava
-Eslovenia,Liubliana
-España,Madrid
-Estonia,Tallín
-Finlandia,Helsinki
-Francia,París
-Georgia,Tiflis
-Grecia,Atenas
-Hungría,Budapest
-Irlanda,Dublín
-Islandia,Reikiavik
-Italia,Roma
-Kazajistán,Astaná
-Letonia,Riga
-Liechtenstein,Vaduz
-Lituania,Vilna
-Luxemburgo,Luxemburgo
-Macedonia del Norte,Skopie
-Malta,La Valeta
-Moldavia,Chisinau
-Mónaco,Mónaco
-Montenegro,Podgorica
-Noruega,Oslo
-Países Bajos,Ámsterdam
-Polonia,Varsovia
-Portugal,Lisboa
-Reino Unido,Londres
-República Checa,Praga
-Rumanía,Bucarest
-Rusia,Moscú
-San Marino,San Marino
-Serbia,Belgrado
-Suecia,Estocolmo
-Suiza,Berna
-Turquía,Ankara
-Ucrania,Kiev
+Albania,tirana
+Alemania,berlín
+Armenia,ereván
+Austria,viena
+Azerbaiyán,bakú
+Bélgica,bruselas
+Bielorrusia,minsk
+Bosnia y Herzegovina,sarajevo
+Bulgaria,sofía
+Chipre,nicosia
+Ciudad del Vaticano,ciudad del vaticano
+Croacia,zagreb
+Dinamarca,copenhague
+Eslovaquia,bratislava
+Eslovenia,liubliana
+España,madrid
+Estonia,tallín
+Finlandia,helsinki
+Francia,parís
+Georgia,tiflis
+Grecia,atenas
+Hungría,budapest
+Irlanda,dublín
+Islandia,reikiavik
+Italia,roma
+Kazajistán,astaná
+Letonia,riga
+Liechtenstein,vaduz
+Lituania,vilna
+Luxemburgo,luxemburgo
+Macedonia del Norte,skopie
+Malta,la valeta
+Moldavia,chisinau
+Mónaco,mónaco
+Montenegro,podgorica
+Noruega,oslo
+Países Bajos,amsterdam
+Polonia,varsovia
+Portugal,lisboa
+Reino Unido,londres
+República Checa,praga
+Rumanía,bucarest
+Rusia,moscú
+San Marino,san marino
+Serbia,belgrado
+Suecia,estocolmo
+Suiza,berna
+Turquía,ankara
+Ucrania,kiev

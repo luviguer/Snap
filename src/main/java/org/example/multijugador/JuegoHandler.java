@@ -61,15 +61,17 @@ public class JuegoHandler implements Runnable {
                 out.writeUTF(definicion); //Manda la definicion al cliente
 
 
-               // System.out.println("ha entrado por segunda vez");
                 respuesta = in.readUTF(); //recibe la respuesta
                 System.out.println(respuesta);
 
-                if (respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
+                if (respuesta.toLowerCase().equals(obtenerPaisPorDefinicion(paises, definicion))) {
                     numAciertos++;
+                    out.writeUTF("has acertado");
 
 
 
+                }else {
+                    out.writeUTF("has fallado");
                 }
 
 
@@ -244,21 +246,6 @@ public class JuegoHandler implements Runnable {
 
         return resultado.toString();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

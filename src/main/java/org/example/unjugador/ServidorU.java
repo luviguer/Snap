@@ -12,7 +12,6 @@ public class ServidorU {
         boolean acertado = false;
         String respuesta = "";
         int numPistas = 1;
-        String sino = "";
 
 
         paises = cargarDefinicionesDesdeArchivo("paises.txt");
@@ -24,8 +23,6 @@ public class ServidorU {
                      DataInputStream in = new DataInputStream(sc.getInputStream());
                      DataOutputStream out = new DataOutputStream(sc.getOutputStream())) {
 
-                    System.out.println("VAMOS A COMENZAR EL JUEGO. ");
-                    System.out.println("Escribe el nombre del pais descrito y exit cuando quieras abandonar la partida");
 
                     // Obtener solo las definiciones y mezclarlas aleatoriamente
                     List<String> definicionesAleatorias = obtenerDefinicionesAleatorias(paises);
@@ -37,29 +34,16 @@ public class ServidorU {
                         out.writeUTF(definicion); //Manda la definicion al cliente
 
                         while (!acertado) {
-                            System.out.println("ha entrado por segunda vez");
+
                             respuesta = in.readUTF(); //recibe la respuesta
                             System.out.println(respuesta);
 
-                            if (respuesta.equals(obtenerPaisPorDefinicion(paises, definicion))) {
-                                System.out.println("ha entrado en la opcion verdadera");
+                            if (respuesta.toLowerCase().equals(obtenerPaisPorDefinicion(paises, definicion))) {
                                 acertado = true;
-                                out.writeUTF("verdadero");//NO se hace
+                                out.writeUTF("verdadero");
                                 out.flush();
-                                System.out.println("ha  mandado verdadero");
 
-                               // sino = in.readUTF();
 
-                                //System.out.println("sino");
-                               // if (sino.equals("si")) {
-                                 //   System.out.println("ha entrado dentro de si");
-                                   // respuesta = sino;
-                                //}
-                                //if (sino.equals("no")) {
-                                  //  respuesta = sino;
-                                   // break;
-
-                                //}
 
 
                             }
@@ -70,15 +54,11 @@ public class ServidorU {
                                 String pais = obtenerPaisPorDefinicion(paises, definicion);
 
                                 String pista=generaPista(pais,numPistas);
-                                System.out.println(numPistas);
                                 if(numPistas==1 | numPistas==2){
-                                    System.out.println("num pistas demtro del primer if"+numPistas);
                                     numPistas++;
-                                    System.out.println("num pistas demtro del primer if"+numPistas);
                                 }else{
                                     if(numPistas==3){
                                         numPistas=0;
-                                        System.out.println("ha entrado al numero 3");
 
 
                                     }
@@ -89,27 +69,13 @@ public class ServidorU {
 
 
                             }
-                            if(respuesta.equals("exit")){
-                               out.writeUTF("Ouuu te has rendido");
-                               break;
 
-                            }
 
-                            if (!respuesta.equals("si") && !respuesta.equals("no") && !respuesta.equals("pista") && !respuesta.equals(obtenerPaisPorDefinicion(paises, definicion)) && !respuesta.equals("exit") ) {
-                                System.out.println("ha llegado al servidor");
-                                System.out.println(respuesta);
-                                System.out.println("se ha metido");
+                            if (!respuesta.equals("si") && !respuesta.equals("no") && !respuesta.equals("pista") && !respuesta.toLowerCase().equals(obtenerPaisPorDefinicion(paises, definicion)) && !respuesta.equals("exit") ) {
                                 out.writeUTF("falso");
                             }
                         }
-                        if(respuesta.equals("exit")){
-                            out.writeUTF("Ouuu te has rendido");
-                            break;
 
-
-
-
-                        }
                     }
                 }
             }
@@ -194,7 +160,7 @@ public class ServidorU {
                 return entry.getKey();
             }
         }
-        return null;  // Manejar el caso en el que no se encuentra el país
+        return null;
     }
 
     public static String formatearPalabra(String palabra, int numero) {

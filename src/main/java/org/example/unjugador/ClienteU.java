@@ -17,6 +17,7 @@ public class ClienteU {
         String resultado="";
         String sino="si";
         String pista="";
+        int priimeraPista=0;
 
 
 
@@ -25,36 +26,57 @@ public class ClienteU {
              DataOutputStream out = new DataOutputStream(s.getOutputStream());) {
 
             System.out.println("Jugador conectado");
+            System.out.println("VAMOS A COMENZAR EL JUEGO");
+            System.out.println("Escribe el nombre del pais descrito y exit cuando quieras abandonar la partida");
 
-            //leemos la descripcion y la mostramos
             while(true) {
+
+                priimeraPista=0;
                 descripcion = in.readUTF();//recibe la definicion y la guarda en description
 
                 System.out.println(descripcion); //Muestra por pantalla la definicion
                 Scanner sc = new Scanner(System.in);
 
                 respuesta = sc.nextLine();//Escribe la respuesta
+
+                //No se puede pedir la primera palabra pista
+                if(respuesta.equals("pista")&& priimeraPista==0){
+                    System.out.println("No puedes pedir pista tan pronto, intentalo una vez");
+                    respuesta=sc.nextLine();
+                    priimeraPista=1;
+                }
+
+               if(respuesta.equals("exit")){
+                   System.out.println("ouu te has rendido ");
+                   break;
+               }
                 out.writeUTF(respuesta);//Manda la respuesta al servidor
                 resultado = in.readUTF();// Recibe falso en caso de que la palabra sea incorrecta y verdadero en el caso contrario
+
                 while (resultado.equals("falso")) {
 
-                    System.out.println("Has fallado introduce otra respuesta o pide pista(introcude pista)");
+                    if(!respuesta.equals("pista")){
+                        System.out.println("Has fallado introduce otra respuesta o pide pista(introcude pista)");
+
+                    }else{
+
+                        System.out.println("intentalo de nuevo");
+                    }
 
                     respuesta = sc.nextLine();
 
 
                     if(!respuesta.equals("pista") && !respuesta.equals("exit")){
 
-                        System.out.println(respuesta);
+
                         out.writeUTF(respuesta);
-                        resultado=in.readUTF();//AQUI NO LLEGA EL VERDADERO
-                     //   System.out.println("ha llegado el verdadero");
-                        System.out.println(resultado);
+                        resultado=in.readUTF();
+
 
 
                     }if(respuesta.equals("pista")) {
 
-                        System.out.println(respuesta);
+
                         out.writeUTF(respuesta);
                         pista=in.readUTF();
                         System.out.println(pista);
@@ -62,8 +84,9 @@ public class ClienteU {
                     }
                     if(respuesta.equals("exit")) {
 
-                        System.out.println("Te has rendido");
+                        System.out.println("ouu te has rendido");
                         resultado="verdadero";
+                        break;
 
 
 
@@ -78,11 +101,19 @@ public class ClienteU {
 
 
 
+                if(!respuesta.equals("exit")){
 
-                   // System.out.println("¿Quieres continuar con el juego?, si/no");
-                // Scanner scc = new Scanner(System.in);
-                // sino = scc.nextLine();
-                // out.writeUTF(sino);
+                    System.out.println("RESPUESTA CORRECTA");
+
+
+                }else{
+                    break;
+                }
+
+
+
+
+
 
 
 

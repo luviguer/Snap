@@ -39,6 +39,9 @@ public class ClienteM {
 
                 respuesta = sc.nextLine();//Escribe la respuesta
                 out.writeUTF(respuesta);//Manda la respuesta al servidor
+
+                System.out.println(in.readUTF());
+
                 resultado = in.readUTF();// Recibe continuamos si va a continuar con las definiciones
 
 
