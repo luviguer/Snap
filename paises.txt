@@ -14,9 +14,9 @@ Dinamarca,copenhague
 Eslovaquia,bratislava
 Eslovenia,liubliana
 España,madrid
-Estonia,tallín
+Estonia,tallin
 Finlandia,helsinki
-Francia,parís
+Francia,paris
 Georgia,tiflis
 Grecia,atenas
 Hungría,budapest
