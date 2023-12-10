@@ -1,12 +1,12 @@
 Albania,tirana
-Alemania,berlín
-Armenia,ereván
+Alemania,berlin
+Armenia,erevan
 Austria,viena
-Azerbaiyán,bakú
+Azerbaiyán,baku
 Bélgica,bruselas
 Bielorrusia,minsk
 Bosnia y Herzegovina,sarajevo
-Bulgaria,sofía
+Bulgaria,sofia
 Chipre,nicosia
 Ciudad del Vaticano,ciudad del vaticano
 Croacia,zagreb
@@ -20,10 +20,10 @@ Francia,parís
 Georgia,tiflis
 Grecia,atenas
 Hungría,budapest
-Irlanda,dublín
+Irlanda,dublin
 Islandia,reikiavik
 Italia,roma
-Kazajistán,astaná
+Kazajistán,astana
 Letonia,riga
 Liechtenstein,vaduz
 Lituania,vilna
@@ -31,7 +31,7 @@ Luxemburgo,luxemburgo
 Macedonia del Norte,skopie
 Malta,la valeta
 Moldavia,chisinau
-Mónaco,mónaco
+Mónaco,monaco
 Montenegro,podgorica
 Noruega,oslo
 Países Bajos,amsterdam
@@ -40,7 +40,7 @@ Portugal,lisboa
 Reino Unido,londres
 República Checa,praga
 Rumanía,bucarest
-Rusia,moscú
+Rusia,moscu
 San Marino,san marino
 Serbia,belgrado
 Suecia,estocolmo

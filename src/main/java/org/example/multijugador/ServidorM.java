@@ -102,7 +102,6 @@ public class ServidorM {
             e.printStackTrace();
         }
 
-        // Mezclar aleatoriamente las líneas solo si no están mezcladas ya
         if (!lineas.get(0).equals(lineas.get(1))) {
             Collections.shuffle(lineas);
         }
