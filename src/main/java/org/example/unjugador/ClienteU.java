@@ -1,7 +1,5 @@
 package org.example.unjugador;
 
-import org.example.Main;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
