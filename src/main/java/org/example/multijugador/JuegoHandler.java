@@ -125,7 +125,6 @@ public class JuegoHandler implements Runnable {
 
 
 
-            c.close();
 
 
         } catch (IOException e) {
